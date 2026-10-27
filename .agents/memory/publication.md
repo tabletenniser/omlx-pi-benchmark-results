@@ -1,0 +1,3 @@
+# Public compact results
+
+The owner requested a NEW PUBLIC repository and explicitly allows local filenames/logs, provided no credentials. Maximum3,000,000bytes for checkout INCLUDING.git after packing. Do not import old Git history or bulk scratch/transcripts. All200daily graded records retained in gzip; earlier raw result suites also gzip. Do not rerun inference for reporting changes. Preserve scarce user tokens; batch checks, avoid polling. Both README tables rank repeat10score descending then first10score. Correctness /2 uses2verified/1some content/0none, completion separate. Report generation and validation are offline standard-library only.

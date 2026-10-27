@@ -1,0 +1,10 @@
+{
+  "captured_at": "2026-10-26T20:57:50.042461-07:00",
+  "os": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "python": "3.14.4 (main, Apr  7 2026, 13:13:20) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "node": "v26.10.0",
+  "gws_version": "0.22.5",
+  "pi_version": "1.4.0",
+  "hardware": "Apple M1 Max",
+  "ram_bytes": 68719476736
+}

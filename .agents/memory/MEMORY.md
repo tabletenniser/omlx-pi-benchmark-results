@@ -1,0 +1,1 @@
+- [Public compact results](publication.md) - public-release permission, 3 MB cap and offline reporting.

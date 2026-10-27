@@ -1,0 +1,16 @@
+{
+  "status": "complete",
+  "new_trials": 140,
+  "total_observations": 200,
+  "baseline_preserved": true,
+  "source_selection_ambiguities": [],
+  "google_mutation_dispatches": 0,
+  "known_secret_matches": 0,
+  "sampling_restored": true,
+  "host_files_unchanged": 5,
+  "protected_host_files": 5,
+  "csv_rows": 200,
+  "pairs": 100,
+  "saved_evidence_checks_passed": 1976,
+  "saved_evidence_checks_total": 1976
+}

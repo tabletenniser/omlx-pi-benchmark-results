@@ -1,0 +1,15 @@
+{
+  "reason": "Shell semicolon tokenization rejected a real recorded Python execution. Scores regraded from immutable receipts and sealed artifacts; no new inference or student program execution. Echo/comment/heredoc-body mentions are rejected.",
+  "controls_passed": 5,
+  "changes": [
+    {
+      "stage": "repeat",
+      "model": "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit",
+      "task": "mac_backup_budget",
+      "verified_before": false,
+      "verified_after": true,
+      "full_before": false,
+      "full_after": true
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+model,attempted,passed,errors,pass_rate,median_wall_s,words_4_passed,words_4_attempted,words_5_passed,words_5_attempted,words_6_passed,words_6_attempted,words_7_passed,words_7_attempted,words_8_passed,words_8_attempted,words_9_passed,words_9_attempted
+Ornith-1.5-35B-A3B-MLX-6bit,60,12,0,0.2,0.36995372897945344,2,10,2,10,3,10,3,10,2,10,0,10
+Ornith-1.5-35B-A3B-Vision-MTPLX-4bit,60,23,0,0.38333333333333336,0.30116074974648654,0,10,7,10,4,10,5,10,3,10,4,10
+Ornith-1.5-35B-A3B-oQ6-gs128-mtp-vision,60,21,0,0.35,0.40284064528532326,4,10,6,10,4,10,3,10,2,10,2,10
+Qwen3.6-35B-A3B-UD-MLX-4bit,60,18,0,0.3,0.2936143954284489,2,10,4,10,5,10,2,10,2,10,3,10
+Qwen3.6-35B-A3B-nvfp4,60,20,0,0.3333333333333333,0.30198791716247797,2,10,6,10,3,10,3,10,2,10,4,10
+Qwen3.8-27B-4bit,60,7,0,0.11666666666666667,1.0546130000147969,0,10,3,10,1,10,0,10,1,10,2,10
+Qwen3.8-27B-oQ4e-mtp,60,14,0,0.23333333333333334,1.1090212084818631,5,10,4,10,0,10,1,10,2,10,2,10
+Qwen3.8-27B-MTPLX-Optimized-Speed,60,13,0,0.21666666666666667,1.0359689586330205,3,10,5,10,2,10,2,10,0,10,1,10

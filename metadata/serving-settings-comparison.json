@@ -1,0 +1,5 @@
+{
+  "different_model_setting_ids": [],
+  "all_model_settings_match_original_baseline": true,
+  "note": "loaded/idle counters are excluded; per-request matched sampling is audited separately."
+}
