@@ -252,8 +252,8 @@
     },
     {
       "path": ".agents/memory/publication.md",
-      "bytes": 655,
-      "sha256": "307b29b28d94e1256608c22cc78df2a1ef8c9eb7737a0850d334db0a6017077e"
+      "bytes": 987,
+      "sha256": "d64e6737b7fa0cb179d751f8ebdbd9b568a582c2ba43a8982d2ba39120bd8b8a"
     },
     {
       "path": ".gitignore",
@@ -262,8 +262,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 22134,
-      "sha256": "91ce4bef55ce5c31c0adc5c49c033ddc54478960dc2c35780224e9b85d30f94d"
+      "bytes": 30078,
+      "sha256": "64163b5d94453fd70c69f63b7140aa42d86423f3c895fbd5561aec0870603103"
     },
     {
       "path": "cases/gemma-4-31b-it-mlx-4bit.md",
@@ -488,17 +488,17 @@
     {
       "path": "results/per-question.csv",
       "bytes": 43813,
-      "sha256": "0f8d33300f217383ca39274e66a48f8bef04bb5baaa74013de5eea971b40338a"
+      "sha256": "66da1c693fd8301f9fb0a57a3ac4fba9b6529b9df34278e15b127f3a26448af7"
     },
     {
       "path": "results/summary.csv",
-      "bytes": 2916,
-      "sha256": "5807f60b1401cfdcec469bab462580054a6a14908c64a08a9fe413968dec9d51"
+      "bytes": 2957,
+      "sha256": "707cc353480490e2ba38599b8c6de7c5a03d81ba19a761cf55b3066fe2acc48a"
     },
     {
       "path": "scripts/report.py",
-      "bytes": 16468,
-      "sha256": "2bb0d8cac03a5f08c81599497d555f98e0022ff9c56312c08f65d7ec5e353636"
+      "bytes": 17535,
+      "sha256": "c9be9e2c6323dc8ae0cf86c6f1e07c072e7f293e028b79aded2bee51a2c0d421"
     }
   ],
   "excluded": [

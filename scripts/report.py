@@ -62,6 +62,24 @@ def csv_file(path, rows):
         writer.writerows(rows)
 
 
+def link(label, href):
+    return f'<a href="{html.escape(href, quote=True)}">{html.escape(str(label))}</a>'
+
+
+def table(rows, numeric=False):
+    # GitHub preserves nowrap and provides horizontal overflow for wide tables.
+    lines = ['<table>', '<thead>', '<tr>']
+    lines += [f'<th nowrap scope="col">{cell}</th>' for cell in rows[0]]
+    lines += ['</tr>', '</thead>', '<tbody>']
+    for row in rows[1:]:
+        lines.append('<tr>')
+        for i, cell in enumerate(row):
+            align = ' align="right"' if numeric and i else ''
+            lines.append(f'<td nowrap{align}>{cell}</td>')
+        lines.append('</tr>')
+    return lines + ['</tbody>', '</table>']
+
+
 def render(root):
     manifest = load(root, 'metadata/model-task-manifest.json.gz')
     tasks = manifest['tasks']
@@ -71,21 +89,23 @@ def render(root):
     notes = load(root, 'metadata/case-notes.json.gz')
     old_notes = load(root, 'metadata/original-failure-notes.json.gz')
     labels = dict(zip((m['id'] for m in manifest['models']), NAMES))
-    models = sorted(manifest['models'], key=lambda m: tuple(-sum(r['passed'] for r in rows if r['model'] == m['id']) for rows in (repeat, first)))
+    scores = {m['id']: [sum(r['passed'] for r in rows if r['model'] == m['id']) for rows in (first, repeat)] for m in manifest['models']}
+    models = sorted(manifest['models'], key=lambda m: (-sum(scores[m['id']]), -scores[m['id']][1]))
     summary, all_cases = [], []
-    overall = ['| Model | Trial #1 score /10 | Trial #1 total E2E (m:ss) | Trial #1 input tok/s | Trial #1 output tok/s | Trial #2 score /10 | Trial #2 total E2E (m:ss) | Trial #2 input tok/s | Trial #2 output tok/s |', '|---|---:|---:|---:|---:|---:|---:|---:|---:|']
-    matrix = ['| Model | ' + ' | '.join(f'[Q{i:02d}](docs/questions.md#q{i:02d})' for i in range(1, 11)) + ' |', '|---|' + '---|' * 10]
+    overall = [['Model', 'Combined<br>score /20'] + [f'Trial #{trial}<br>{label}' for trial in (1, 2) for label in ('score /10', 'total E2E (m:ss)', 'input tok/s', 'output tok/s')]]
+    matrix = [['Model'] + [link(f'Q{i:02d}', f'docs/questions.md#q{i:02d}') for i in range(1, 11)]]
     for model in models:
         mid, name = model['id'], labels[model['id']]
         path = f'cases/{slug(mid)}.md'
         records = [[mapping[mid, t['id']] for t in tasks] for mapping in mappings]
         summaries = [stats(rows) for rows in records]
-        summary.append({'model': mid, 'display_name': name, **{f'trial_{i}_{k}': v for i, s in enumerate(summaries, 1) for k, v in s.items()}})
-        row_cells = [f'[{name}]({path})']
+        combined = sum(s['score'] for s in summaries)
+        summary.append({'model': mid, 'display_name': name, 'combined_score': combined, **{f'trial_{i}_{k}': v for i, s in enumerate(summaries, 1) for k, v in s.items()}})
+        row_cells = [link(name, path), f'{combined}/20']
         for trial, s in enumerate(summaries, 1):
             minutes, seconds = divmod(round(s['total_e2e_s']), 60)
-            row_cells += [f'[{s["score"]}/10]({path}#trial-{trial}-failures)', f'{minutes}:{seconds:02d}', f'{s["input_tok_s"]:.2f}', f'{s["output_tok_s"]:.2f}']
-        overall.append('| ' + ' | '.join(row_cells) + ' |')
+            row_cells += [link(f'{s["score"]}/10', f'{path}#trial-{trial}-failures'), f'{minutes}:{seconds:02d}', f'{s["input_tok_s"]:.2f}', f'{s["output_tok_s"]:.2f}']
+        overall.append(row_cells)
         page = [f'# {name}', '', f'Exact model ID: `{mid}`.', '', '[Summary and matrix](../README.md) · [Scoring](../docs/methodology.md#scoring)', '']
         hub = model.get('display_name', '')
         if '/' in hub and not hub.startswith('/'):
@@ -95,14 +115,14 @@ def render(root):
             failures = [(i, mapping[mid, t['id']]) for i, t in enumerate(tasks, 1) if not mapping[mid, t['id']]['passed']]
             page += [f'- [Q{i:02d}: {QUESTIONS[i - 1]}](#q{i:02d}-trial-{trial}) — {state(r)}; {correct(r)}/2; {r["e2e_s"]:.2f}s.' for i, r in failures] or ['All ten questions passed.']
             page += ['']
-        matrix_cells = [f'[{name}]({path})']
+        matrix_cells = [link(name, path)]
         for i, task in enumerate(tasks, 1):
             parts = []
             for trial, mapping in enumerate(mappings, 1):
                 r = mapping[mid, task['id']]
                 tag = f'q{i:02d}-trial-{trial}'
                 mark = ' ⚠' if r['verified'] and not r['passed'] else ''
-                parts.append(f'T{trial}: [{correct(r)}/2{mark} · {r["e2e_s"]:.2f}s]({path}#{tag})')
+                parts.append(f'T{trial}: ' + link(f'{correct(r)}/2{mark} · {r["e2e_s"]:.2f}s', f'{path}#{tag}'))
                 fullfile = 'repeat10' if trial == 2 else 'original6' if i <= 6 else 'added4'
                 stage = 'repeat' if trial == 2 else 'added' if i > 6 else 'original6'
                 reason = notes.get(f'{stage}/{mid}/{task["id"]}') if stage != 'original6' else old_notes.get(mid + '/' + task['id'])
@@ -124,7 +144,7 @@ def render(root):
                                       e2e_s=r['e2e_s'],input_tok_s=r['input_tps'],output_tok_s=r['output_tps'],checks_passed=r['checks_passed'],checks_total=r['checks_total'],
                                       error=r['error'],case_report=path + '#' + tag,raw_file=f'data/daily/{fullfile}.jsonl.gz'))
             matrix_cells.append('<br>'.join(parts))
-        matrix.append('| ' + ' | '.join(matrix_cells) + ' |')
+        matrix.append(matrix_cells)
         (root / path).write_text('\n'.join(page))
     csv_file(root / 'results/summary.csv', summary)
     csv_file(root / 'results/per-question.csv', all_cases)
@@ -132,10 +152,11 @@ def render(root):
               '**Ten models × ten daily tasks × two trials = 200 scored observations.** Public, compact results repository. No credentials or model weights. Earlier benchmark results are included as compressed downloads.', '',
               'All benchmarks were run locally on an **Apple M1 Max machine with 64 GB of RAM (unified memory)**. macOS 26.6.2, Pi 1.4.0, GWS 0.22.5. Collected October 26–27, 2026 (America/Los_Angeles). All models/questions ran sequentially.', '',
               '## Model summary', '',
-              'Sorted by **Trial #2 score descending**, then Trial #1; remaining ties retain collection order. Trial #1 retains the original six questions plus four additions. Trial #2 is a fresh run of all ten. Scores require all task checks and normal completion within **600 seconds / 12 model requests**. Score links open each trial’s failures.', '',
-              '**Total E2E** sums all ten case runtimes, including failures and repairs, excluding model load/warmup/grading. Rates are weighted native engine measurements: input excludes cached tokens; output includes thinking.', ''] + overall + ['',
+              'Both tables are sorted by **combined Trial #1 + Trial #2 score, out of 20**, highest first. Ties use Trial #2 score descending, then collection order. Trial #1 retains the original six questions plus four additions. Trial #2 is a fresh run of all ten. Scores require all task checks and normal completion within **600 seconds / 12 model requests**. Score links open each trial’s failures.', '',
+              '**Total E2E** sums all ten case runtimes, including failures and repairs, excluding model load/warmup/grading. Rates are weighted native engine measurements: input excludes cached tokens; output includes thinking.', '',
+              '*Scroll horizontally within each table to see all columns.*', ''] + table(overall, numeric=True) + ['',
               '[Summary CSV](results/summary.csv) · [Methodology](docs/methodology.md)', '', '## Question correctness and runtime', '',
-              'Each cell shows both trials separately: **correctness /2 · E2E seconds**. **2/2** = all verification checks passed; **1/2** = at least one required content check passed; **0/2** = none. **⚠** = verified correct but completion failed, earning no /10 point. These are descriptive categories, not equal-weight partial-credit grades. Every entry links to the case explanation and full raw records.', ''] + matrix + ['',
+              'Each cell shows both trials separately: **correctness /2 · E2E seconds**. **2/2** = all verification checks passed; **1/2** = at least one required content check passed; **0/2** = none. **⚠** = verified correct but completion failed, earning no /10 point. These are descriptive categories, not equal-weight partial-credit grades. Every entry links to the case explanation and full raw records.', ''] + table(matrix) + ['',
               '[All 200 per-question results CSV](results/per-question.csv) · [Exact questions and CLI guides](docs/questions.md)', '',
               '## Interpretation', '',
               '- Full-pass outcomes matched on **72/100** pairs; these results are **not fully reproducible** at the per-question completion level.',
@@ -187,12 +208,15 @@ def validate(root):
             assert expected['score'] == old[s['model']][prefix + '_full']
             assert math.isclose(expected['input_tok_s'], old[s['model']][prefix + '_input_tps'], rel_tol=1e-10)
             assert math.isclose(expected['output_tok_s'], old[s['model']][prefix + '_output_tps'], rel_tol=1e-10)
-    rank = lambda r: (-int(r['trial_2_score']), -int(r['trial_1_score']))
+        assert int(s['combined_score']) == int(s['trial_1_score']) + int(s['trial_2_score'])
+    rank = lambda r: (-int(r['combined_score']), -int(r['trial_2_score']))
     assert summary == sorted(summary, key=rank)
     links = 0
     for p in [root / 'README.md', *sorted((root / 'docs').glob('*.md')), *sorted((root / 'cases').glob('*.md'))]:
-        for href in re.findall(r'\[[^\]\n]*\]\(([^)]+)\)', p.read_text()):
-            url = urlsplit(href)
+        content = p.read_text()
+        hrefs = re.findall(r'\[[^\]\n]*\]\(([^)]+)\)', content) + re.findall(r'href="([^"]+)"', content)
+        for href in hrefs:
+            url = urlsplit(html.unescape(href))
             if url.scheme or url.netloc:
                 continue
             target = (p.parent / unquote(url.path)).resolve() if url.path else p
