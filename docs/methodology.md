@@ -4,7 +4,7 @@
 
 Ten models × ten daily questions × two observations = 200 scored results. Trial #1 retains the original six-question collection (60 observations) and adds four questions (40 observations); it is not a fresh contiguous ten-question run. Trial #2 is a fresh 100-observation collection. Every case/model was sequential to avoid OOM. Per stage/model, the runner waited for idle, unloaded/reloaded and used the same short math warmup. Native disk/prefix caches and model-specific MTP/engine settings were retained.
 
-Hardware: Apple M1 Max, 64 GiB; macOS 26.6.2; Pi 1.4.0; GWS 0.22.5; Node 26.10.0; Python 3.14.4. [Environment](../metadata/environment.json), [recorded models/tasks/settings](../metadata/model-task-manifest.json.gz?raw=1).
+All benchmarks were run locally on an **Apple M1 Max machine with 64 GB of RAM (unified memory)**; macOS 26.6.2; Pi 1.4.0; GWS 0.22.5; Node 26.10.0; Python 3.14.4. [Environment](../metadata/environment.json), [recorded models/tasks/settings](../metadata/model-task-manifest.json.gz?raw=1).
 
 Real Pi CLI native read/write/edit/bash tools, direct Node launcher. Temperature 0.6, top_p 0.95, top_k 20; per-question seed 41001 + 100 × zero-based question index; configured thinking budget 1,024; maximum output 4,096 tokens per request; context 65,536; at most 12 model requests and 600 seconds per question. Global extensions, skills, MCP, user context, retry and compaction disabled. A fixed CLI guide and explicit write guard were provided. Matching seeds/settings do not guarantee deterministic tool interactions or native inference.
 

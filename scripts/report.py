@@ -130,7 +130,7 @@ def render(root):
     csv_file(root / 'results/per-question.csv', all_cases)
     readme = ['# Pi CLI + oMLX: local model benchmark results', '',
               '**Ten models × ten daily tasks × two trials = 200 scored observations.** Public, compact results repository. No credentials or model weights. Earlier benchmark results are included as compressed downloads.', '',
-              'Hardware: **Apple M1 Max, 64 GiB RAM**. macOS 26.6.2, Pi 1.4.0, GWS 0.22.5. Collected October 26–27, 2026 (America/Los_Angeles). All models/questions ran sequentially.', '',
+              'All benchmarks were run locally on an **Apple M1 Max machine with 64 GB of RAM (unified memory)**. macOS 26.6.2, Pi 1.4.0, GWS 0.22.5. Collected October 26–27, 2026 (America/Los_Angeles). All models/questions ran sequentially.', '',
               '## Model summary', '',
               'Sorted by **Trial #2 score descending**, then Trial #1; remaining ties retain collection order. Trial #1 retains the original six questions plus four additions. Trial #2 is a fresh run of all ten. Scores require all task checks and normal completion within **600 seconds / 12 model requests**. Score links open each trial’s failures.', '',
               '**Total E2E** sums all ten case runtimes, including failures and repairs, excluding model load/warmup/grading. Rates are weighted native engine measurements: input excludes cached tokens; output includes thinking.', ''] + overall + ['',

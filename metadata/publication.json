@@ -262,8 +262,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 22075,
-      "sha256": "6048ec05a456f2fb7476ffe6fcc07a1c8bb6bd5356257a138e7fe22045debd4a"
+      "bytes": 22134,
+      "sha256": "91ce4bef55ce5c31c0adc5c49c033ddc54478960dc2c35780224e9b85d30f94d"
     },
     {
       "path": "cases/gemma-4-31b-it-mlx-4bit.md",
@@ -412,8 +412,8 @@
     },
     {
       "path": "docs/methodology.md",
-      "bytes": 6417,
-      "sha256": "8ef29e13b441771b7af7e764ff2bfeae07d1e660a79ba62652e1d0bc5f104ca6"
+      "bytes": 6484,
+      "sha256": "a48e028931024e6896d413d283326c63876d7d4be0b7a34e22a8068fdbd59c0e"
     },
     {
       "path": "docs/questions.md",
@@ -497,8 +497,8 @@
     },
     {
       "path": "scripts/report.py",
-      "bytes": 16409,
-      "sha256": "3370d06eb7d82f9f2d755c31e215f453c9f9d6d280b8d6902ac7867f945ead92"
+      "bytes": 16468,
+      "sha256": "2bb0d8cac03a5f08c81599497d555f98e0022ff9c56312c08f65d7ec5e353636"
     }
   ],
   "excluded": [
