@@ -4,17 +4,17 @@
 
 | Path | Contents |
 |---|---|
-| [Summary CSV](../results/summary.csv) | Ten models; separate trial scores, total/mean E2E, tokens/evaluation seconds and weighted rates |
-| [Per-question CSV](../results/per-question.csv) | 200 observations: /2 correctness, original full/verified flags, E2E, rates, check counts, errors and case/raw links |
+| [Summary CSV](../results/summary.csv) | Ten models; combined /30 score and total E2E across three trials, plus separate trial scores, total/mean E2E, tokens/evaluation seconds and weighted rates |
+| [Per-question CSV](../results/per-question.csv) | 300 observations: /2 correctness, original full/verified flags, E2E, rates, check counts, errors and case/raw links |
 | [All-suites summary](../results/all-suites-summary.csv) | Combined historical and daily model summaries |
-| [Daily data](../data/daily) | Three lossless gzip JSONL files: original6 (60), added4 (40), repeat10 (100) |
+| [Daily data](../data/daily) | Four lossless gzip JSONL files: original6 (60), added4 (40), repeat10 (100), third10 (100) |
 | [Historical data](history.md) | Original earlier suites and the normalized ten-model matrix; some overlap |
-| [Case pages](../cases) | Ten model pages covering all 100 paired model/question cases with failure explanations |
+| [Case pages](../cases) | Ten model pages covering all 100 model/question cases across three trials with failure explanations |
 | [Exact questions](questions.md) | Ten prompts, CLI guides and exact calendar/scheduling windows |
 | [Metadata](../metadata) | Environment, original settings/summary, notes, audits, hashes and credential review |
 | [Harness source](../code/benchmark-harness.tar.gz?raw=1) | Trusted experimental runner/grader source archive |
 
-Each raw JSONL row retains its original fields, including full `checks` with details, `answer`, `expected`, original absolute `directory`, model IDs, request/tool counters, token/evaluation times and recorded errors. The files are compressed, not reduced to success/failure summaries. Trial1 combines original6 and added4; trial2 uses repeat10. No inference was rerun.
+Each raw JSONL row retains its original fields, including full `checks` with details, `answer`, `expected`, original absolute `directory`, model IDs, request/tool counters, token/evaluation times and recorded errors. The files are compressed, not reduced to success/failure summaries. Trial #1 combines original6 and added4; Trial #2 uses repeat10; Trial #3 uses third10. Trial #3 is new inference requested by the owner. Earlier observations are unchanged; report generation itself uses saved files only.
 
 ## Read the raw data
 
@@ -32,7 +32,7 @@ print(json.dumps({k: case[k] for k in ['checks', 'expected', 'answer']}, indent=
 
 On macOS/Linux, `gzip -dc data/daily/repeat10.jsonl.gz` prints every row. Use `tar -tzf code/benchmark-harness.tar.gz` to list source files without executing anything.
 
-`results/summary.csv` uses `trial_1_*`/`trial_2_*`. `score` is the original full-pass /10 count; `verified` disregards normal-completion failure. `total_e2e_s` sums ten cases; `mean_e2e_s` divides by ten. Token/evaluation-second fields allow independent weighted-rate calculations. `results/per-question.csv` separates `correctness_out_of_2`, `verified` and `full_pass` and gives the portable `case_report` and `raw_file` paths. Raw absolute paths are historical provenance; no such directory is required after cloning.
+`results/summary.csv` uses `trial_1_*`/`trial_2_*`/`trial_3_*`. `combined_score` sums the three /10 full-pass scores, out of 30. `combined_total_e2e_s` sums all 30 case runtimes per model across the three trials, including failures and repairs and excluding model loading, warmup and grading. Each trial's `score` is its full-pass /10 count; `verified` disregards normal-completion failure. Each trial's `total_e2e_s` sums ten cases; `mean_e2e_s` divides by ten. Token/evaluation-second fields allow independent weighted-rate calculations. `results/per-question.csv` separates `correctness_out_of_2`, `verified` and `full_pass` and gives the portable `case_report` and `raw_file` paths. Raw absolute paths are historical provenance; no such directory is required after cloning.
 
 ## What was left out
 

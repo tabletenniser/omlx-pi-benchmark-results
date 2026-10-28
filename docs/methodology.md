@@ -2,7 +2,7 @@
 
 ## Collection and protocol
 
-Ten models × ten daily questions × two observations = 200 scored results. Trial #1 retains the original six-question collection (60 observations) and adds four questions (40 observations); it is not a fresh contiguous ten-question run. Trial #2 is a fresh 100-observation collection. Every case/model was sequential to avoid OOM. Per stage/model, the runner waited for idle, unloaded/reloaded and used the same short math warmup. Native disk/prefix caches and model-specific MTP/engine settings were retained.
+Ten models × ten daily questions × three observations = 300 scored results. Trial #1 retains the original six-question collection (60 observations) and adds four questions (40 observations); it is not a fresh contiguous ten-question run. Trials #2 and #3 are separate fresh 100-observation collections. Every case/model was sequential to avoid OOM. Per stage/model, the runner waited for idle, unloaded/reloaded and used the same short math warmup. Native disk/prefix caches and model-specific MTP/engine settings were retained. [Trial #3 collection and audit](trial-3.md).
 
 All benchmarks were run locally on an **Apple M1 Max machine with 64 GB of RAM (unified memory)**; macOS 26.6.2; Pi 1.4.0; GWS 0.22.5; Node 26.10.0; Python 3.14.4. [Environment](../metadata/environment.json), [recorded models/tasks/settings](../metadata/model-task-manifest.json.gz?raw=1).
 
@@ -39,7 +39,7 @@ Artifact reads were hardened after eleven new cases: pinned directory descriptor
 
 A final shell-invocation parser fix accepted the actual command `python3 plan_backup.py; ...`. All 140 new cases were regraded from saved receipts/artifacts without inference or student-code execution. Exactly one verdict changed: repeat Ornith Vision backup became PASS. [Correction record](../metadata/invocation-parser-correction.json).
 
-Maintenance and occasional foreign user inference caused archived unscored infrastructure attempts. The benchmark interrupted only its own affected trial and waited; foreign inference was not killed. These are excluded from the 200 scored observations. The final evidence audit passed 1,976/1,976 checks; zero Google mutations occurred across all attempts/controls, and five protected host files were unchanged. [Completion audit](../metadata/completion-audit.json), [full audit](../metadata/final-audit.json.gz?raw=1), [all-attempt source audit](../metadata/all-attempts-source-audit.json.gz?raw=1).
+During Trials #1 and #2, maintenance and occasional foreign user inference caused archived unscored infrastructure attempts. The benchmark interrupted only its own affected trial and waited; foreign inference was not killed. These are excluded from those 200 scored observations. Their final evidence audit passed 1,976/1,976 checks; zero Google mutations occurred across all attempts/controls, and five protected host files were unchanged. [Completion audit](../metadata/completion-audit.json), [full audit](../metadata/final-audit.json.gz?raw=1), [all-attempt source audit](../metadata/all-attempts-source-audit.json.gz?raw=1). Trial #3 has its own [fresh controls and saved-evidence audit](trial-3.md).
 
 ## Code and replay
 

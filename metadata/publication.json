@@ -3,12 +3,11 @@
   "visibility": "public",
   "maximum_repository_bytes_including_git": 3000000,
   "credential_review": {
-    "payloads_scanned_before_compression": 69,
-    "known_secret_values_loaded_without_export": 3,
+    "payloads_scanned_before_compression": 85,
     "placeholder_or_environment_references": 4,
     "redactions": [],
     "credential_stores_included": false,
-    "scope": "Exact current oMLX/process credentials; provider tokens, PEM keys, URL passwords, bearer tokens and credential literal fields. Archives scanned before compression."
+    "scope": "Exact current oMLX/process credentials; provider tokens, PEM keys, URL passwords, bearer tokens and credential literal fields. Every final gzip/tar payload was expanded before scanning."
   },
   "source_exports": [
     {
@@ -242,6 +241,46 @@
       "original_sha256": "f85921558fa35475c734bd193181e8af786b47bbe9ab3a49dbdff6fabe8f54d5",
       "uncompressed_export_sha256": "f85921558fa35475c734bd193181e8af786b47bbe9ab3a49dbdff6fabe8f54d5",
       "redacted": false
+    },
+    {
+      "source": "/Users/tabletenniser/omlx-benchmarks/daily-third-20261027-143130/raw-results.jsonl",
+      "path": "data/daily/third10.jsonl.gz",
+      "original_bytes": 529693,
+      "original_sha256": "9131227a5205bf03ea562d4bd40d067bf9af9763d8825371c66dcdf045aad4a6",
+      "uncompressed_export_sha256": "9131227a5205bf03ea562d4bd40d067bf9af9763d8825371c66dcdf045aad4a6",
+      "redacted": false
+    },
+    {
+      "source": "/Users/tabletenniser/omlx-benchmarks/daily-third-20261027-143130/manifest.json",
+      "path": "metadata/trial-3-manifest.json.gz",
+      "original_bytes": 68962,
+      "original_sha256": "62be5405aa0b062baaeea83435560e565dae2ed12d096991576fe447cef2589d",
+      "uncompressed_export_sha256": "62be5405aa0b062baaeea83435560e565dae2ed12d096991576fe447cef2589d",
+      "redacted": false
+    },
+    {
+      "source": "/Users/tabletenniser/omlx-benchmarks/daily-third-20261027-143130/summary.json",
+      "path": "metadata/trial-3-summary.json.gz",
+      "original_bytes": 2567,
+      "original_sha256": "313c5e0e59e9dc37968a33b5f9c693b13140d57265faba955e28f8dbe1696796",
+      "uncompressed_export_sha256": "313c5e0e59e9dc37968a33b5f9c693b13140d57265faba955e28f8dbe1696796",
+      "redacted": false
+    },
+    {
+      "source": "/Users/tabletenniser/omlx-benchmarks/daily-third-20261027-143130/final-audit.json",
+      "path": "metadata/trial-3-audit.json.gz",
+      "original_bytes": 116868,
+      "original_sha256": "6a4d91b78494306dd24e9885007807db4b2ce06c162f32f4be2490437b303612",
+      "uncompressed_export_sha256": "6a4d91b78494306dd24e9885007807db4b2ce06c162f32f4be2490437b303612",
+      "redacted": false
+    },
+    {
+      "source": "/Users/tabletenniser/omlx-benchmarks/daily-third-20261027-143130/source-snapshot/pi_daily_third_benchmark.py",
+      "path": "code/trial-3-runner.py.gz",
+      "original_bytes": 18333,
+      "original_sha256": "872ba970a1b8fad1c5b506a7a7f04b9dd1568bf9e0ce491f0195f445df1c058b",
+      "uncompressed_export_sha256": "872ba970a1b8fad1c5b506a7a7f04b9dd1568bf9e0ce491f0195f445df1c058b",
+      "redacted": false
     }
   ],
   "files": [
@@ -252,8 +291,8 @@
     },
     {
       "path": ".agents/memory/publication.md",
-      "bytes": 987,
-      "sha256": "d64e6737b7fa0cb179d751f8ebdbd9b568a582c2ba43a8982d2ba39120bd8b8a"
+      "bytes": 1110,
+      "sha256": "1d36f36558da7661e1339d40de3d27c2a99a4150816017fce281590df3fc92a1"
     },
     {
       "path": ".gitignore",
@@ -262,63 +301,68 @@
     },
     {
       "path": "README.md",
-      "bytes": 30078,
-      "sha256": "64163b5d94453fd70c69f63b7140aa42d86423f3c895fbd5561aec0870603103"
+      "bytes": 41413,
+      "sha256": "ef64e39a601ca19b360b6f7921e70cc68a5b255d1b16119e021ea37a5b4ffc64"
     },
     {
       "path": "cases/gemma-4-31b-it-mlx-4bit.md",
-      "bytes": 17538,
-      "sha256": "769a98985dbe01d4898224f8f55fdafa1cf1d9d0ee7cb32b7a53baea206b49e9"
+      "bytes": 27044,
+      "sha256": "92933ef6e39bc631095e04a218dad2b522b4ac6e25ea928b5b0fc8af974fa00d"
     },
     {
       "path": "cases/muse-glimmer-30b-4bit.md",
-      "bytes": 19508,
-      "sha256": "c62978aede59bcaa7bf31a8a59899d85e7f0ba3733c8b806957f4c9c8d88562b"
+      "bytes": 28705,
+      "sha256": "10de68450b92e64bd65600f3bfcd94e67486468f8011bd63b6f72b6fe94d0b75"
     },
     {
       "path": "cases/ornith-1-5-35b-a3b-mlx-6bit.md",
-      "bytes": 15594,
-      "sha256": "f1126fba6e02b1fbd258e43fcbde50f18d3601ee983929242a2a35f8dbc15ee1"
+      "bytes": 23152,
+      "sha256": "59890af444d2e2abc78a11a82378ae518fe674d81c843b4ec5e67b590273ab6f"
     },
     {
       "path": "cases/ornith-1-5-35b-a3b-oq6-gs128-mtp-vision.md",
-      "bytes": 14674,
-      "sha256": "93452370660d33d7051704f29431f2c2f8bf62360f60417c41d08f2b0221cb78"
+      "bytes": 21774,
+      "sha256": "521fcca1f198dd57e722152d2bd9bf845b095ad7b088d4b24e1f914445e24816"
     },
     {
       "path": "cases/ornith-1-5-35b-a3b-vision-mtplx-4bit.md",
-      "bytes": 13512,
-      "sha256": "584a5dd704af78f581f0c83ad82b1bf71bb1c61d22adde4c0fe01b095580c7bf"
+      "bytes": 21529,
+      "sha256": "ed13267c5065514711f4e2c5b8620da4db094800dd6f602b36aa0fbed5c8c18e"
     },
     {
       "path": "cases/qwen3-6-35b-a3b-nvfp4.md",
-      "bytes": 16169,
-      "sha256": "998e76b1e31556872845c8e76e325c0b1aa5eba8059f38a58899e723a131efc7"
+      "bytes": 24669,
+      "sha256": "2d51526fa7e563abd302a6b071118ddd17ab800edae3723292e9ef003f8d23db"
     },
     {
       "path": "cases/qwen3-6-35b-a3b-ud-mlx-4bit.md",
-      "bytes": 14618,
-      "sha256": "6b3ee14035e8039867f3a68310843203cf8b991073fcd0c9da5e3ce15bf86440"
+      "bytes": 21981,
+      "sha256": "be775126feeb269a1ca47b19d6275f828bdc140cdf3ceee19f6392983e603901"
     },
     {
       "path": "cases/qwen3-8-27b-4bit.md",
-      "bytes": 13169,
-      "sha256": "66885fa9bdc382d102e6414245322f3c52fb0b53e72f64cf9cc9e0e46b142b10"
+      "bytes": 20484,
+      "sha256": "99c5cfd5f396656b3d2ee85e633c74343de3f3d038115b2c29e04bc96ec5e740"
     },
     {
       "path": "cases/qwen3-8-27b-mtplx-optimized-speed.md",
-      "bytes": 12544,
-      "sha256": "3e62a2f57d26cfb0f9f4058610fe31f47507c5ae665a1b47cdef260f7714b6f1"
+      "bytes": 19800,
+      "sha256": "c285b96acd43d024297ff4ed854e977b5f32d61b9e069be95ea645e0bdd0e940"
     },
     {
       "path": "cases/qwen3-8-27b-oq4e-mtp.md",
-      "bytes": 12421,
-      "sha256": "df7c78fc398a43449fe9c3be90a2acc0ce8bd5a1fe696ab935e6a6b7ae226a1f"
+      "bytes": 18409,
+      "sha256": "b4c84cb28d1bf21f7eb14b648fb430913a5f538571a274618af95be08318135d"
     },
     {
       "path": "code/benchmark-harness.tar.gz",
       "bytes": 75922,
       "sha256": "b58afdccafd7527230d772e747ba26163037ec3f4dba566d4006ed2b97e3a390"
+    },
+    {
+      "path": "code/trial-3-runner.py.gz",
+      "bytes": 5715,
+      "sha256": "79466f2ed1037281b1d302c1e1f91188fdc583b8175fcb65836301c7cd14ad13"
     },
     {
       "path": "data/daily/added4.jsonl.gz",
@@ -334,6 +378,11 @@
       "path": "data/daily/repeat10.jsonl.gz",
       "bytes": 61716,
       "sha256": "765044a12ae1413d90294f7e1f3ed5618cbd17453640b11f8626d5fa0d0f95b3"
+    },
+    {
+      "path": "data/daily/third10.jsonl.gz",
+      "bytes": 60964,
+      "sha256": "77276d28d2f52ef13299c09262f1f56a741dd23bcb50cb03d5e9024930b7b74b"
     },
     {
       "path": "data/history/initial-qwen-summary.json",
@@ -397,8 +446,8 @@
     },
     {
       "path": "docs/data.md",
-      "bytes": 4426,
-      "sha256": "1821250db7d178f41f2e47c6a8effaea2411fde4d2db48a07c7ecb2657f1e2ab"
+      "bytes": 4907,
+      "sha256": "686c9429177b962f46108da52884fca266535a26d095a312eadf8f1a27a39d56"
     },
     {
       "path": "docs/earlier-36-prompts.md",
@@ -412,8 +461,8 @@
     },
     {
       "path": "docs/methodology.md",
-      "bytes": 6484,
-      "sha256": "a48e028931024e6896d413d283326c63876d7d4be0b7a34e22a8068fdbd59c0e"
+      "bytes": 6653,
+      "sha256": "dcf5ec2c3903fa33d8e8f524383363c06d88f8377c484b97768e85b213f2a3a5"
     },
     {
       "path": "docs/questions.md",
@@ -424,6 +473,11 @@
       "path": "docs/research-questions.md",
       "bytes": 13905,
       "sha256": "f85921558fa35475c734bd193181e8af786b47bbe9ab3a49dbdff6fabe8f54d5"
+    },
+    {
+      "path": "docs/trial-3.md",
+      "bytes": 3817,
+      "sha256": "6afb70b67e7dd5df2d60e4af4b883ab413e876f2ba7f260a4e2bb792e3576632"
     },
     {
       "path": "metadata/all-attempts-source-audit.json.gz",
@@ -481,24 +535,49 @@
       "sha256": "04a1f192905d2c69cceecbba797696e438563ec72c6b0a2a76f7261b659c0bee"
     },
     {
+      "path": "metadata/trial-3-audit.json.gz",
+      "bytes": 4362,
+      "sha256": "5ac56ac07d430dbeaf1e9766fd24c6decf111c615b2cf291bd58edbd17246c7e"
+    },
+    {
+      "path": "metadata/trial-3-case-notes.json.gz",
+      "bytes": 1435,
+      "sha256": "a811100bfdac03d6cc6b47e3a8aea3a3134e6bd71098a4a14a37c920e557eee6"
+    },
+    {
+      "path": "metadata/trial-3-comparison.json.gz",
+      "bytes": 1319,
+      "sha256": "fc6aea3405eca03175ffd95bb0ca203528d0e4840d33230957bd872d51072f3e"
+    },
+    {
+      "path": "metadata/trial-3-manifest.json.gz",
+      "bytes": 7558,
+      "sha256": "da5a20cafa97de2dcaf94438f8105f0885534b9c5064334ba4747e10b5ebd3b6"
+    },
+    {
+      "path": "metadata/trial-3-summary.json.gz",
+      "bytes": 722,
+      "sha256": "9ff32fee99247a853929b18cf4a23ff8acb580d8f6dc6593a96ade02ea0bfdc9"
+    },
+    {
       "path": "results/all-suites-summary.csv",
       "bytes": 8002,
       "sha256": "6f70178a4c2a9bbee7e14ef958dcb23d54b4c95c6ff58bf5c0d160fb5702b69b"
     },
     {
       "path": "results/per-question.csv",
-      "bytes": 43813,
-      "sha256": "66da1c693fd8301f9fb0a57a3ac4fba9b6529b9df34278e15b127f3a26448af7"
+      "bytes": 65629,
+      "sha256": "c127861309397ccaadace4a0c493a1ab5c590568b28439c019b12d99d5a252eb"
     },
     {
       "path": "results/summary.csv",
-      "bytes": 2957,
-      "sha256": "707cc353480490e2ba38599b8c6de7c5a03d81ba19a761cf55b3066fe2acc48a"
+      "bytes": 4437,
+      "sha256": "0028d6c058863a1d043bb49b7a64c7ef8cf30bc63d6dd81cc1e5794b9695fde9"
     },
     {
       "path": "scripts/report.py",
-      "bytes": 17535,
-      "sha256": "c9be9e2c6323dc8ae0cf86c6f1e07c072e7f293e028b79aded2bee51a2c0d421"
+      "bytes": 19893,
+      "sha256": "1e996ea4a557786bd698aabecbc4da991238c2cd0369a62beaf03d712a9323ce"
     }
   ],
   "excluded": [
@@ -508,5 +587,13 @@
     "source media and model weights",
     "old Git history"
   ],
-  "model_runs_during_publication": 0
+  "model_runs_during_publication": 0,
+  "updated_at": "2026-10-28T04:54:53.764500+00:00",
+  "trial_3": {
+    "fresh_scored_cases": 100,
+    "prior_observations_unchanged": true,
+    "source_audit_passed": true,
+    "hourly_monitor_seconds": 3600,
+    "sequential": true
+  }
 }

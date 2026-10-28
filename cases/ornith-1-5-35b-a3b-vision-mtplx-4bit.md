@@ -18,6 +18,13 @@ Exact model ID: `Ornith-1.5-35B-A3B-Vision-MTPLX-4bit`.
 - [Q08: Camera cross-check](#q08-trial-2) — FAIL; 1/2; 194.11s.
 - [Q09: Frigate log analysis](#q09-trial-2) — FAIL; 1/2; 113.36s.
 
+## Trial 3 failures
+
+- [Q02: Exact duplicates](#q02-trial-3) — FAIL; 1/2; 68.06s.
+- [Q04: Frigate configuration](#q04-trial-3) — FAIL; 1/2; 96.32s.
+- [Q08: Camera cross-check](#q08-trial-3) — FAIL; 1/2; 237.26s.
+- [Q09: Frigate log analysis](#q09-trial-3) — FAIL; 1/2; 114.83s.
+
 <a id="q01-trial-1"></a>
 ## Q01 · Trial 1: Largest files
 
@@ -44,6 +51,19 @@ All verification checks passed.
 
 In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "mac_large_files"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
+<a id="q01-trial-3"></a>
+## Q01 · Trial 3: Largest files
+
+**PASS** · correctness **2/2** · E2E **50.76s** · checks **7/7**.
+
+Input 402.58 tok/s · output 53.73 tok/s · 7 model requests.
+
+All verification checks passed with normal completion.
+
+[Exact prompt](../docs/questions.md#q01) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "mac_large_files"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
 <a id="q02-trial-1"></a>
 ## Q02 · Trial 1: Exact duplicates
 
@@ -67,6 +87,23 @@ Input 461.96 tok/s · output 72.43 tok/s · 12 model requests.
 All verification checks passed.
 
 [Exact prompt](../docs/questions.md#q02) · [Full scored records: repeat10.jsonl.gz](../data/daily/repeat10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "mac_duplicates"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
+<a id="q02-trial-3"></a>
+## Q02 · Trial 3: Exact duplicates
+
+**FAIL** · correctness **1/2** · E2E **68.06s** · checks **7/8**.
+
+Input 401.24 tok/s · output 58.28 tok/s · 4 model requests.
+
+total_bytes_hashed: incorrect value.
+
+Failed checks:
+
+- correct total_bytes_hashed
+
+[Exact prompt](../docs/questions.md#q02) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
 
 In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "mac_duplicates"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
@@ -100,6 +137,19 @@ All verification checks passed.
 
 In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "ha_basement_idle"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
+<a id="q03-trial-3"></a>
+## Q03 · Trial 3: HA basement guards
+
+**PASS** · correctness **2/2** · E2E **41.65s** · checks **19/19**.
+
+Input 412.29 tok/s · output 53.57 tok/s · 5 model requests.
+
+All verification checks passed with normal completion.
+
+[Exact prompt](../docs/questions.md#q03) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "ha_basement_idle"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
 <a id="q04-trial-1"></a>
 ## Q04 · Trial 1: Frigate configuration
 
@@ -130,6 +180,23 @@ All verification checks passed.
 
 In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "frigate_recording"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
+<a id="q04-trial-3"></a>
+## Q04 · Trial 3: Frigate configuration
+
+**FAIL** · correctness **1/2** · E2E **96.32s** · checks **18/19**.
+
+Input 388.31 tok/s · output 50.05 tok/s · 5 model requests.
+
+detector_types: one or more nested values/order differ; see exact expected/actual evidence.
+
+Failed checks:
+
+- correct detector_types
+
+[Exact prompt](../docs/questions.md#q04) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "frigate_recording"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
 <a id="q05-trial-1"></a>
 ## Q05 · Trial 1: Drive storage
 
@@ -156,6 +223,19 @@ All verification checks passed.
 
 In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "gws_drive_storage"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
+<a id="q05-trial-3"></a>
+## Q05 · Trial 3: Drive storage
+
+**PASS** · correctness **2/2** · E2E **46.67s** · checks **10/10**.
+
+Input 398.20 tok/s · output 58.97 tok/s · 5 model requests.
+
+All verification checks passed with normal completion.
+
+[Exact prompt](../docs/questions.md#q05) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "gws_drive_storage"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
 <a id="q06-trial-1"></a>
 ## Q06 · Trial 1: Calendar conflicts
 
@@ -179,6 +259,19 @@ Input 468.00 tok/s · output 61.51 tok/s · 9 model requests.
 All verification checks passed.
 
 [Exact prompt](../docs/questions.md#q06) · [Full scored records: repeat10.jsonl.gz](../data/daily/repeat10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "gws_calendar_conflicts"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
+<a id="q06-trial-3"></a>
+## Q06 · Trial 3: Calendar conflicts
+
+**PASS** · correctness **2/2** · E2E **85.22s** · checks **8/8**.
+
+Input 360.26 tok/s · output 53.77 tok/s · 8 model requests.
+
+All verification checks passed with normal completion.
+
+[Exact prompt](../docs/questions.md#q06) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
 
 In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "gws_calendar_conflicts"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
@@ -210,6 +303,19 @@ Input 456.26 tok/s · output 53.96 tok/s · 5 model requests.
 All verification checks passed.
 
 [Exact prompt](../docs/questions.md#q07) · [Full scored records: repeat10.jsonl.gz](../data/daily/repeat10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "mac_backup_budget"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
+<a id="q07-trial-3"></a>
+## Q07 · Trial 3: Backup optimization
+
+**PASS** · correctness **2/2** · E2E **77.18s** · checks **11/11**.
+
+Input 382.71 tok/s · output 48.48 tok/s · 7 model requests.
+
+All verification checks passed with normal completion.
+
+[Exact prompt](../docs/questions.md#q07) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
 
 In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "mac_backup_budget"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
@@ -256,6 +362,32 @@ Failed checks:
 
 In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "home_camera_crosscheck"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
+<a id="q08-trial-3"></a>
+## Q08 · Trial 3: Camera cross-check
+
+**FAIL** · correctness **1/2** · E2E **237.26s** · checks **7/11**.
+
+Input 312.00 tok/s · output 39.55 tok/s · 12 model requests.
+
+automation_count: incorrect value. automations: one or more nested values/order differ; see exact expected/actual evidence. referenced_camera_names: one or more nested values/order differ; see exact expected/actual evidence. unreferenced_frigate_cameras: one or more nested values/order differ; see exact expected/actual evidence. Completion error: 429: {"message":"Benchmark limit: twelve model requests per task."}
+
+Completion error:
+
+```text
+429: {"message":"Benchmark limit: twelve model requests per task."}
+```
+
+Failed checks:
+
+- correct automation_count
+- correct automations
+- correct referenced_camera_names
+- correct unreferenced_frigate_cameras
+
+[Exact prompt](../docs/questions.md#q08) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "home_camera_crosscheck"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
 <a id="q09-trial-1"></a>
 ## Q09 · Trial 1: Frigate log analysis
 
@@ -295,6 +427,37 @@ Failed checks:
 
 In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "frigate_log_triage"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
+<a id="q09-trial-3"></a>
+## Q09 · Trial 3: Frigate log analysis
+
+**FAIL** · correctness **1/2** · E2E **114.83s** · checks **6/15**.
+
+Input 336.30 tok/s · output 53.85 tok/s · 12 model requests.
+
+The required complete CSV did not match its source-grounded contract. parsed_lines: incorrect value. unparsed_lines: incorrect value. level_counts: one or more nested values/order differ; see exact expected/actual evidence. top_error_components: one or more nested values/order differ; see exact expected/actual evidence. first_error_utc: expected str, received NoneType. last_error_utc: expected str, received NoneType. busiest_error_minute: expected dict, received NoneType. crashes_by_camera: one or more nested values/order differ; see exact expected/actual evidence. Completion error: 429: {"message":"Benchmark limit: twelve model requests per task."}
+
+Completion error:
+
+```text
+429: {"message":"Benchmark limit: twelve model requests per task."}
+```
+
+Failed checks:
+
+- complete error-component CSV
+- correct parsed_lines
+- correct unparsed_lines
+- correct level_counts
+- correct top_error_components
+- correct first_error_utc
+- correct last_error_utc
+- correct busiest_error_minute
+- correct crashes_by_camera
+
+[Exact prompt](../docs/questions.md#q09) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "frigate_log_triage"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
 <a id="q10-trial-1"></a>
 ## Q10 · Trial 1: Meeting availability
 
@@ -318,5 +481,18 @@ Input 475.55 tok/s · output 59.06 tok/s · 8 model requests.
 All verification checks passed.
 
 [Exact prompt](../docs/questions.md#q10) · [Full scored records: repeat10.jsonl.gz](../data/daily/repeat10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "gws_meeting_slots"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
+<a id="q10-trial-3"></a>
+## Q10 · Trial 3: Meeting availability
+
+**PASS** · correctness **2/2** · E2E **190.89s** · checks **11/11**.
+
+Input 351.56 tok/s · output 48.42 tok/s · 12 model requests.
+
+All verification checks passed with normal completion.
+
+[Exact prompt](../docs/questions.md#q10) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
 
 In that JSONL file, select `model == "Ornith-1.5-35B-A3B-Vision-MTPLX-4bit"` and `task == "gws_meeting_slots"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).

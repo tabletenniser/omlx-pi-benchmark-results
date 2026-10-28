@@ -17,6 +17,13 @@ Exact model ID: `Qwen3.6-35B-A3B-UD-MLX-4bit`.
 - [Q07: Backup optimization](#q07-trial-2) — FAIL; 1/2; 122.37s.
 - [Q08: Camera cross-check](#q08-trial-2) — FAIL; 0/2; 49.69s.
 
+## Trial 3 failures
+
+- [Q06: Calendar conflicts](#q06-trial-3) — FAIL; 0/2; 144.36s.
+- [Q07: Backup optimization](#q07-trial-3) — FAIL; 1/2; 160.56s.
+- [Q08: Camera cross-check](#q08-trial-3) — FAIL; 1/2; 185.20s.
+- [Q10: Meeting availability](#q10-trial-3) — FAIL; 0/2; 159.54s.
+
 <a id="q01-trial-1"></a>
 ## Q01 · Trial 1: Largest files
 
@@ -40,6 +47,19 @@ Input 554.55 tok/s · output 55.57 tok/s · 4 model requests.
 All verification checks passed.
 
 [Exact prompt](../docs/questions.md#q01) · [Full scored records: repeat10.jsonl.gz](../data/daily/repeat10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "mac_large_files"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
+<a id="q01-trial-3"></a>
+## Q01 · Trial 3: Largest files
+
+**PASS** · correctness **2/2** · E2E **84.08s** · checks **7/7**.
+
+Input 369.10 tok/s · output 39.00 tok/s · 7 model requests.
+
+All verification checks passed with normal completion.
+
+[Exact prompt](../docs/questions.md#q01) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
 
 In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "mac_large_files"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
@@ -69,6 +89,19 @@ All verification checks passed.
 
 In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "mac_duplicates"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
+<a id="q02-trial-3"></a>
+## Q02 · Trial 3: Exact duplicates
+
+**PASS** · correctness **2/2** · E2E **77.07s** · checks **8/8**.
+
+Input 380.34 tok/s · output 37.80 tok/s · 5 model requests.
+
+All verification checks passed with normal completion.
+
+[Exact prompt](../docs/questions.md#q02) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "mac_duplicates"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
 <a id="q03-trial-1"></a>
 ## Q03 · Trial 1: HA basement guards
 
@@ -92,6 +125,19 @@ Input 589.95 tok/s · output 56.98 tok/s · 4 model requests.
 All verification checks passed.
 
 [Exact prompt](../docs/questions.md#q03) · [Full scored records: repeat10.jsonl.gz](../data/daily/repeat10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "ha_basement_idle"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
+<a id="q03-trial-3"></a>
+## Q03 · Trial 3: HA basement guards
+
+**PASS** · correctness **2/2** · E2E **62.90s** · checks **19/19**.
+
+Input 433.01 tok/s · output 36.72 tok/s · 5 model requests.
+
+All verification checks passed with normal completion.
+
+[Exact prompt](../docs/questions.md#q03) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
 
 In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "ha_basement_idle"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
@@ -147,6 +193,19 @@ All verification checks passed.
 
 In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "frigate_recording"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
+<a id="q04-trial-3"></a>
+## Q04 · Trial 3: Frigate configuration
+
+**PASS** · correctness **2/2** · E2E **129.99s** · checks **19/19**.
+
+Input 359.45 tok/s · output 35.48 tok/s · 6 model requests.
+
+All verification checks passed with normal completion.
+
+[Exact prompt](../docs/questions.md#q04) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "frigate_recording"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
 <a id="q05-trial-1"></a>
 ## Q05 · Trial 1: Drive storage
 
@@ -170,6 +229,19 @@ Input 467.72 tok/s · output 54.24 tok/s · 9 model requests.
 All verification checks passed.
 
 [Exact prompt](../docs/questions.md#q05) · [Full scored records: repeat10.jsonl.gz](../data/daily/repeat10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "gws_drive_storage"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
+<a id="q05-trial-3"></a>
+## Q05 · Trial 3: Drive storage
+
+**PASS** · correctness **2/2** · E2E **86.33s** · checks **10/10**.
+
+Input 374.44 tok/s · output 37.48 tok/s · 9 model requests.
+
+All verification checks passed with normal completion.
+
+[Exact prompt](../docs/questions.md#q05) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
 
 In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "gws_drive_storage"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
@@ -213,6 +285,33 @@ All verification checks passed.
 
 In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "gws_calendar_conflicts"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
+<a id="q06-trial-3"></a>
+## Q06 · Trial 3: Calendar conflicts
+
+**FAIL** · correctness **0/2** · E2E **144.36s** · checks **3/8**.
+
+Input 450.00 tok/s · output 38.02 tok/s · 3 model requests.
+
+No valid required answer.json was delivered. Missing value checks are undelivered output, not independently demonstrated factual errors. Model output contains an unrecoverable tool call. Previously delivered tool calls must not be executed again on retry.
+
+Completion error:
+
+```text
+Model output contains an unrecoverable tool call. Previously delivered tool calls must not be executed again on retry.
+```
+
+Failed checks:
+
+- answer.json is an object
+- correct all_day_count
+- correct timed_count
+- correct first_five_timed
+- correct conflicting_pairs
+
+[Exact prompt](../docs/questions.md#q06) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "gws_calendar_conflicts"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
 <a id="q07-trial-1"></a>
 ## Q07 · Trial 1: Backup optimization
 
@@ -246,6 +345,23 @@ Failed checks:
 - correct candidate_total_bytes
 
 [Exact prompt](../docs/questions.md#q07) · [Full scored records: repeat10.jsonl.gz](../data/daily/repeat10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "mac_backup_budget"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
+<a id="q07-trial-3"></a>
+## Q07 · Trial 3: Backup optimization
+
+**FAIL** · correctness **1/2** · E2E **160.56s** · checks **10/11**.
+
+Input 372.39 tok/s · output 36.48 tok/s · 9 model requests.
+
+The required complete CSV did not match its source-grounded contract.
+
+Failed checks:
+
+- complete source-grounded candidate CSV
+
+[Exact prompt](../docs/questions.md#q07) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
 
 In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "mac_backup_budget"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
@@ -296,6 +412,23 @@ Failed checks:
 
 In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "home_camera_crosscheck"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
+<a id="q08-trial-3"></a>
+## Q08 · Trial 3: Camera cross-check
+
+**FAIL** · correctness **1/2** · E2E **185.20s** · checks **10/11**.
+
+Input 331.96 tok/s · output 36.23 tok/s · 9 model requests.
+
+automations: one or more nested values/order differ; see exact expected/actual evidence.
+
+Failed checks:
+
+- correct automations
+
+[Exact prompt](../docs/questions.md#q08) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "home_camera_crosscheck"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
 <a id="q09-trial-1"></a>
 ## Q09 · Trial 1: Frigate log analysis
 
@@ -319,6 +452,19 @@ Input 403.00 tok/s · output 50.97 tok/s · 11 model requests.
 All verification checks passed.
 
 [Exact prompt](../docs/questions.md#q09) · [Full scored records: repeat10.jsonl.gz](../data/daily/repeat10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "frigate_log_triage"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
+<a id="q09-trial-3"></a>
+## Q09 · Trial 3: Frigate log analysis
+
+**PASS** · correctness **2/2** · E2E **176.02s** · checks **15/15**.
+
+Input 343.83 tok/s · output 36.52 tok/s · 11 model requests.
+
+All verification checks passed with normal completion.
+
+[Exact prompt](../docs/questions.md#q09) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
 
 In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "frigate_log_triage"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
 
@@ -361,5 +507,34 @@ Input 402.91 tok/s · output 50.10 tok/s · 12 model requests.
 All verification checks passed.
 
 [Exact prompt](../docs/questions.md#q10) · [Full scored records: repeat10.jsonl.gz](../data/daily/repeat10.jsonl.gz?raw=1)
+
+In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "gws_meeting_slots"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).
+
+<a id="q10-trial-3"></a>
+## Q10 · Trial 3: Meeting availability
+
+**FAIL** · correctness **0/2** · E2E **159.54s** · checks **4/11**.
+
+Input 368.47 tok/s · output 37.85 tok/s · 12 model requests.
+
+No valid required answer.json was delivered. Missing value checks are undelivered output, not independently demonstrated factual errors. 429: {"message":"Benchmark limit: twelve model requests per task."}
+
+Completion error:
+
+```text
+429: {"message":"Benchmark limit: twelve model requests per task."}
+```
+
+Failed checks:
+
+- answer.json is an object
+- actual successful Python script invocation
+- correct timezone
+- correct meeting_minutes
+- correct days
+- correct total_free_minutes
+- correct first_three_meetings
+
+[Exact prompt](../docs/questions.md#q10) · [Full scored records: third10.jsonl.gz](../data/daily/third10.jsonl.gz?raw=1)
 
 In that JSONL file, select `model == "Qwen3.6-35B-A3B-UD-MLX-4bit"` and `task == "gws_meeting_slots"` for every original check/detail and full expected/submitted answer. See [how to inspect raw data](../docs/data.md).

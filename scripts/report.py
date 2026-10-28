@@ -28,6 +28,19 @@ def raw_rows(root, name):
     return [json.loads(line) for line in gzip.decompress((root / name).read_bytes()).splitlines() if line.strip()]
 
 
+def trials(root):
+    result = [raw_rows(root, 'data/daily/original6.jsonl.gz') + raw_rows(root, 'data/daily/added4.jsonl.gz'),
+              raw_rows(root, 'data/daily/repeat10.jsonl.gz')]
+    if (root / 'data/daily/third10.jsonl.gz').exists():
+        result.append(raw_rows(root, 'data/daily/third10.jsonl.gz'))
+    return result
+
+
+def duration(seconds):
+    minutes, seconds = divmod(round(seconds), 60)
+    return f'{minutes}:{seconds:02d}'
+
+
 def slug(value):
     return re.sub('[^a-z0-9]+', '-', value.lower()).strip('-')
 
@@ -83,16 +96,18 @@ def table(rows, numeric=False):
 def render(root):
     manifest = load(root, 'metadata/model-task-manifest.json.gz')
     tasks = manifest['tasks']
-    first = raw_rows(root, 'data/daily/original6.jsonl.gz') + raw_rows(root, 'data/daily/added4.jsonl.gz')
-    repeat = raw_rows(root, 'data/daily/repeat10.jsonl.gz')
-    mappings = [{(r['model'], r['task']): r for r in rows} for rows in (first, repeat)]
+    datasets = trials(root)
+    trial_count = len(datasets)
+    mappings = [{(r['model'], r['task']): r for r in rows} for rows in datasets]
     notes = load(root, 'metadata/case-notes.json.gz')
+    if (root / 'metadata/trial-3-case-notes.json.gz').exists():
+        notes.update(load(root, 'metadata/trial-3-case-notes.json.gz'))
     old_notes = load(root, 'metadata/original-failure-notes.json.gz')
     labels = dict(zip((m['id'] for m in manifest['models']), NAMES))
-    scores = {m['id']: [sum(r['passed'] for r in rows if r['model'] == m['id']) for rows in (first, repeat)] for m in manifest['models']}
-    models = sorted(manifest['models'], key=lambda m: (-sum(scores[m['id']]), -scores[m['id']][1]))
+    scores = {m['id']: [sum(r['passed'] for r in rows if r['model'] == m['id']) for rows in datasets] for m in manifest['models']}
+    models = sorted(manifest['models'], key=lambda m: (-sum(scores[m['id']]), -scores[m['id']][-1]))
     summary, all_cases = [], []
-    overall = [['Model', 'Combined<br>score /20'] + [f'Trial #{trial}<br>{label}' for trial in (1, 2) for label in ('score /10', 'total E2E (m:ss)', 'input tok/s', 'output tok/s')]]
+    overall = [['Model', f'Combined<br>score /{10 * trial_count}', f'All {trial_count} trials<br>total E2E (m:ss)'] + [f'Trial #{trial}<br>{label}' for trial in range(1, trial_count + 1) for label in ('score /10', 'total E2E (m:ss)', 'input tok/s', 'output tok/s')]]
     matrix = [['Model'] + [link(f'Q{i:02d}', f'docs/questions.md#q{i:02d}') for i in range(1, 11)]]
     for model in models:
         mid, name = model['id'], labels[model['id']]
@@ -100,11 +115,11 @@ def render(root):
         records = [[mapping[mid, t['id']] for t in tasks] for mapping in mappings]
         summaries = [stats(rows) for rows in records]
         combined = sum(s['score'] for s in summaries)
-        summary.append({'model': mid, 'display_name': name, 'combined_score': combined, **{f'trial_{i}_{k}': v for i, s in enumerate(summaries, 1) for k, v in s.items()}})
-        row_cells = [link(name, path), f'{combined}/20']
+        combined_time = sum(s['total_e2e_s'] for s in summaries)
+        summary.append({'model': mid, 'display_name': name, 'combined_score': combined, 'combined_total_e2e_s': combined_time, **{f'trial_{i}_{k}': v for i, s in enumerate(summaries, 1) for k, v in s.items()}})
+        row_cells = [link(name, path), f'{combined}/{10 * trial_count}', duration(combined_time)]
         for trial, s in enumerate(summaries, 1):
-            minutes, seconds = divmod(round(s['total_e2e_s']), 60)
-            row_cells += [link(f'{s["score"]}/10', f'{path}#trial-{trial}-failures'), f'{minutes}:{seconds:02d}', f'{s["input_tok_s"]:.2f}', f'{s["output_tok_s"]:.2f}']
+            row_cells += [link(f'{s["score"]}/10', f'{path}#trial-{trial}-failures'), duration(s['total_e2e_s']), f'{s["input_tok_s"]:.2f}', f'{s["output_tok_s"]:.2f}']
         overall.append(row_cells)
         page = [f'# {name}', '', f'Exact model ID: `{mid}`.', '', '[Summary and matrix](../README.md) · [Scoring](../docs/methodology.md#scoring)', '']
         hub = model.get('display_name', '')
@@ -123,8 +138,8 @@ def render(root):
                 tag = f'q{i:02d}-trial-{trial}'
                 mark = ' ⚠' if r['verified'] and not r['passed'] else ''
                 parts.append(f'T{trial}: ' + link(f'{correct(r)}/2{mark} · {r["e2e_s"]:.2f}s', f'{path}#{tag}'))
-                fullfile = 'repeat10' if trial == 2 else 'original6' if i <= 6 else 'added4'
-                stage = 'repeat' if trial == 2 else 'added' if i > 6 else 'original6'
+                fullfile = 'third10' if trial == 3 else 'repeat10' if trial == 2 else 'original6' if i <= 6 else 'added4'
+                stage = 'third' if trial == 3 else 'repeat' if trial == 2 else 'added' if i > 6 else 'original6'
                 reason = notes.get(f'{stage}/{mid}/{task["id"]}') if stage != 'original6' else old_notes.get(mid + '/' + task['id'])
                 if not reason:
                     reason = ('All verification checks passed.' if r['verified'] else
@@ -149,21 +164,21 @@ def render(root):
     csv_file(root / 'results/summary.csv', summary)
     csv_file(root / 'results/per-question.csv', all_cases)
     readme = ['# Pi CLI + oMLX: local model benchmark results', '',
-              '**Ten models × ten daily tasks × two trials = 200 scored observations.** Public, compact results repository. No credentials or model weights. Earlier benchmark results are included as compressed downloads.', '',
+              f'**Ten models × ten daily tasks × {trial_count} trials = {100 * trial_count} scored observations.** Public, compact results repository. No credentials or model weights. Earlier benchmark results are included as compressed downloads.', '',
               'All benchmarks were run locally on an **Apple M1 Max machine with 64 GB of RAM (unified memory)**. macOS 26.6.2, Pi 1.4.0, GWS 0.22.5. Collected October 26–27, 2026 (America/Los_Angeles). All models/questions ran sequentially.', '',
               '## Model summary', '',
-              'Both tables are sorted by **combined Trial #1 + Trial #2 score, out of 20**, highest first. Ties use Trial #2 score descending, then collection order. Trial #1 retains the original six questions plus four additions. Trial #2 is a fresh run of all ten. Scores require all task checks and normal completion within **600 seconds / 12 model requests**. Score links open each trial’s failures.', '',
-              '**Total E2E** sums all ten case runtimes, including failures and repairs, excluding model load/warmup/grading. Rates are weighted native engine measurements: input excludes cached tokens; output includes thinking.', '',
+              f'Both tables are sorted by **combined score across all {trial_count} trials, out of {10 * trial_count}**, highest first. Ties use Trial #{trial_count} score descending, then collection order. Trial #1 retains the original six questions plus four additions. Subsequent trials are fresh runs of all ten. Scores require all task checks and normal completion within **600 seconds / 12 model requests**. Score links open each trial’s failures.', '',
+              f'**All {trial_count} trials total E2E** sums all {10 * trial_count} case runtimes per model. Each trial’s **total E2E** sums its ten cases. Both include failures and repairs and exclude model load/warmup/grading. Rates are weighted native engine measurements: input excludes cached tokens; output includes thinking.', '',
               '*Scroll horizontally within each table to see all columns.*', ''] + table(overall, numeric=True) + ['',
               '[Summary CSV](results/summary.csv) · [Methodology](docs/methodology.md)', '', '## Question correctness and runtime', '',
-              'Each cell shows both trials separately: **correctness /2 · E2E seconds**. **2/2** = all verification checks passed; **1/2** = at least one required content check passed; **0/2** = none. **⚠** = verified correct but completion failed, earning no /10 point. These are descriptive categories, not equal-weight partial-credit grades. Every entry links to the case explanation and full raw records.', ''] + table(matrix) + ['',
-              '[All 200 per-question results CSV](results/per-question.csv) · [Exact questions and CLI guides](docs/questions.md)', '',
+              f'Each cell shows all {trial_count} trials separately: **correctness /2 · E2E seconds**. **2/2** = all verification checks passed; **1/2** = at least one required content check passed; **0/2** = none. **⚠** = verified correct but completion failed, earning no /10 point. These are descriptive categories, not equal-weight partial-credit grades. Every entry links to the case explanation and full raw records.', ''] + table(matrix) + ['',
+              f'[All {100 * trial_count} per-question results CSV](results/per-question.csv) · [Exact questions and CLI guides](docs/questions.md)', '',
               '## Interpretation', '',
-              '- Full-pass outcomes matched on **72/100** pairs; these results are **not fully reproducible** at the per-question completion level.',
+              '- Between Trials #1 and #2, full-pass outcomes matched on **72/100** pairs; those results are **not fully reproducible** at the per-question completion level.',
               '- Thirty expected references changed (file inventory, duplicates, Drive storage). Among 70 pairs with unchanged expected answers, **24 full-pass outcomes flipped**. Matching expected answers does not prove identical source/context inputs.',
-              '- All three Qwen3.8 variants repeated **6/6 full passes** on the original six questions. Jundot verified **9/10** in both observations, but two correct repeat artifacts hit completion limits, reducing its full score from **9 to 7**.',
+              '- In Trials #1 and #2, all three Qwen3.8 variants repeated **6/6 full passes** on the original six questions. Jundot verified **9/10** in both, but two correct Trial #2 artifacts hit completion limits, reducing its full score from **9 to 7**.',
               '- Several mathematically optimal backup plans failed the candidate inventory/metadata requirements. See case explanations before interpreting these as optimization failures.',
-              '- Two trials are a small reproducibility check. Existing model-specific MTP/engine/cache settings and shared laptop workload limit generalization.', '',
+              '- These are small repeated samples. Existing model-specific MTP/engine/cache settings and shared laptop workload limit generalization.', '',
               '## Data and documentation', '',
               '- [Data layout, raw-data commands, and the size limit](docs/data.md)',
               '- [Methodology, scoring, timing, safety controls, and corrections](docs/methodology.md)',
@@ -175,6 +190,11 @@ def render(root):
               '## Regenerate or validate offline', '', '```sh', 'python3 scripts/report.py --render', 'python3 scripts/report.py --validate', '```', '',
               'These use Python’s standard library, saved files only, no inference/network calls, and no model-authored program execution. The archived benchmark harness is machine-specific experimental code. No license is assigned to personal data, third-party models, or model outputs by this repository.', '']
     (root / 'README.md').write_text('\n'.join(readme))
+    if trial_count == 3:
+        readme_path = root / 'README.md'
+        content = readme_path.read_text().replace('- [Data layout, raw-data commands, and the size limit]',
+            '- [Trial #3 collection, audit, and comparison](docs/trial-3.md)\n- [Data layout, raw-data commands, and the size limit]')
+        readme_path.write_text(content)
     return summary, all_cases
 
 
@@ -183,12 +203,15 @@ def validate(root):
     originals = load(root, 'metadata/original-summary.json.gz')
     summary = list(csv.DictReader((root / 'results/summary.csv').open()))
     per = list(csv.DictReader((root / 'results/per-question.csv').open()))
-    assert len(summary) == 10 and len(per) == 200
+    datasets = trials(root)
+    trial_count = len(datasets)
+    assert len(summary) == 10 and len(per) == 100 * trial_count
     raw = {}
-    for trial, filename in [(1, 'original6'), (1, 'added4'), (2, 'repeat10')]:
-        for r in raw_rows(root, f'data/daily/{filename}.jsonl.gz'):
+    for trial, dataset in enumerate(datasets, 1):
+        assert len(dataset) == 100
+        for r in dataset:
             raw[r['model'], r['task'], trial] = r
-    assert len(raw) == 200
+    assert len(raw) == 100 * trial_count
     for row in per:
         r = raw[row['model'], row['task'], int(row['trial'])]
         assert float(row['e2e_s']) == r['e2e_s']
@@ -200,16 +223,29 @@ def validate(root):
             assert float(row[published]) == r[original]
     old = {r['model']: r for r in originals}
     for s in summary:
-        for trial, prefix in [(1, 'expanded10'), (2, 'repeat10')]:
+        for trial in range(1, trial_count + 1):
             subset = [r for (mid, _, tr), r in raw.items() if mid == s['model'] and tr == trial]
             expected = stats(subset)
             for field, value in expected.items():
                 assert math.isclose(float(s[f'trial_{trial}_{field}']), value, rel_tol=1e-10)
-            assert expected['score'] == old[s['model']][prefix + '_full']
-            assert math.isclose(expected['input_tok_s'], old[s['model']][prefix + '_input_tps'], rel_tol=1e-10)
-            assert math.isclose(expected['output_tok_s'], old[s['model']][prefix + '_output_tps'], rel_tol=1e-10)
-        assert int(s['combined_score']) == int(s['trial_1_score']) + int(s['trial_2_score'])
-    rank = lambda r: (-int(r['combined_score']), -int(r['trial_2_score']))
+            if trial < 3:
+                prefix = 'expanded10' if trial == 1 else 'repeat10'
+                reference = old[s['model']]
+                assert expected['score'] == reference[prefix + '_full']
+                assert math.isclose(expected['input_tok_s'], reference[prefix + '_input_tps'], rel_tol=1e-10)
+                assert math.isclose(expected['output_tok_s'], reference[prefix + '_output_tps'], rel_tol=1e-10)
+            else:
+                reference = next(r for r in load(root, 'metadata/trial-3-summary.json.gz') if r['model'] == s['model'])
+                assert reference['attempted'] == 10 and reference['full'] == expected['score']
+                for field, key in [('input_tok_s', 'input_tps'), ('output_tok_s', 'output_tps'), ('total_e2e_s', 'total_e2e_s')]:
+                    assert math.isclose(expected[field], reference[key], rel_tol=1e-10)
+        assert int(s['combined_score']) == sum(int(s[f'trial_{trial}_score']) for trial in range(1, trial_count + 1))
+        assert math.isclose(float(s['combined_total_e2e_s']), sum(float(s[f'trial_{trial}_total_e2e_s']) for trial in range(1, trial_count + 1)), rel_tol=1e-10)
+    if trial_count == 3:
+        audit = load(root, 'metadata/trial-3-audit.json.gz')
+        assert audit['passed'] and audit['scored_trials'] == 100 and not audit['failed_checks']
+        assert audit['google_mutation_dispatches'] == 0
+    rank = lambda r: (-int(r['combined_score']), -int(r[f'trial_{trial_count}_score']))
     assert summary == sorted(summary, key=rank)
     links = 0
     for p in [root / 'README.md', *sorted((root / 'docs').glob('*.md')), *sorted((root / 'cases').glob('*.md'))]:
@@ -232,7 +268,7 @@ def validate(root):
         assert hashlib.sha256(raw_bytes).hexdigest() == item['sha256'], item['path']
     for p in root.rglob('*'):
         assert not p.is_symlink()
-    print(json.dumps({'status': 'PASS', 'models': 10, 'scored_observations': 200, 'portable_links': links,
+    print(json.dumps({'status': 'PASS', 'models': 10, 'trials': trial_count, 'scored_observations': 100 * trial_count, 'portable_links': links,
                       'scores_and_weighted_metrics_match_originals': True, 'model_runs': 0}, indent=2))
 
 
